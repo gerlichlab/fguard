@@ -21,6 +21,10 @@ def scan(root_directories, outputdir):
     collector.collect_files()
     collector.save(outputdir)
 
+@cli.group()
+def triggers():
+    pass
+
 @click.command()
 @click.option("--newScan", default=None, help="Defaults to the newest scan in the current working directory")
 @click.option("--oldScan", default=None, help="Defaults to the second newest scan in the current working directory")
@@ -51,4 +55,4 @@ def missing_files(newscan, oldscan, action_names, threshhold):
     trigger.inspect(old_result, new_result)
 
 cli.add_command(scan)
-cli.add_command(missing_files)
+triggers.add_command(missing_files)

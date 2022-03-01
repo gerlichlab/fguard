@@ -9,6 +9,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        dirCompare=dircompare.cli:main
+        dirCompare=dircompare.cli:cli
     ''',
 )

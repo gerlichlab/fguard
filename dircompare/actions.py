@@ -14,3 +14,7 @@ class StdOutAction(BaseAction):
 
     def perform(self, message):
         print(message)
+
+ACTIONMAP = {
+    "stdout": StdOutAction
+}

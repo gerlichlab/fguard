@@ -23,7 +23,7 @@ class FilesMissingTrigger(BaseTrigger):
     """Will trigger an action when
     more than a specified number of files are missing"""
 
-    def __init__(self, number_threshold: int, actions: List[BaseAction]):
+    def __init__(self, actions: List[BaseAction], number_threshold: int = 100):
         self.number_threshold = number_threshold
         self.actions = actions
 
@@ -56,3 +56,8 @@ class FilesMissingTrigger(BaseTrigger):
             for action in self.actions:
                 action.perform(json.dumps(message))
             return message
+
+
+TRIGGERMAP = {
+    "files_missing": FilesMissingTrigger
+}

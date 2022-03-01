@@ -6,6 +6,8 @@ import logging
 from typing import List
 
 
+DATEFORMAT = '%Y-%m-%dT%H:%M:%S'
+
 class CollectionResult():
     """Represents result of collection"""
     def __init__(self, result, directories_scanned, date):
@@ -24,6 +26,16 @@ class CollectionResult():
 
     def get_files(self):
         return self.result.keys()
+
+    def get_filename(self):
+        number_directories = len(self.directories_scanned)
+        return f"{self.date.strftime(DATEFORMAT)}_{number_directories}_rootdirs.scan"
+
+    @staticmethod
+    def from_file(file_path):
+        """Load collectionresult from a file"""
+        with open(file_path, "rb") as f:
+            return pickle.load(f)
 
     def get_result(self):
         return self.result
@@ -56,7 +68,7 @@ class FlatCollector:
         puts found files with associated statistics
         into a flat dictionary"""
         for directory in self.rootDirectories:
-            self.logger.info(f"Collecting files from {directory}")
+            self.logger.info(f" Collecting files from {directory}")
             for dirpath, dirnames, files in os.walk(directory):
                 for file in files:
                     filename = os.path.join(dirpath, file)
@@ -69,7 +81,7 @@ class FlatCollector:
                     }
                     self.logger.debug(f"Processing {filename}")
                     self._files[filename] = file_info
-        self.logger.info(f"Found {len(self._files.keys())} files")
+        self.logger.info(f" Found {len(self._files.keys())} files")
         self.result = CollectionResult(self._files, self.rootDirectories, datetime.utcnow())
 
     def get_file_stats(self):
@@ -78,10 +90,10 @@ class FlatCollector:
             raise ValueError("No result, run collection first!")
         return self.result
 
-    def save_file_state(self, output_file):
+    def save(self, output_directory):
         """writes collected files to the output file"""
-        if os.path.isfile(output_file):
-            raise ValueError("Output file already exists!")
         if self.result is None:
             raise ValueError("No result, run collection first!")
-        pickle.dump(self.result, open(output_file, "wb"))
+        filename = self.result.get_filename()
+        with open(os.path.join(output_directory, filename), "wb") as f:
+            pickle.dump(self.result, f)

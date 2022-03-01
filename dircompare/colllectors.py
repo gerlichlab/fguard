@@ -1,11 +1,34 @@
-"""Classes for analyzing a directory tree in terms of contained files"""
+"""Classes for collecting files from a directory tree"""
 import os
+from datetime import datetime
 import pickle
 import logging
 from typing import List
 
 
-class FlatAnalyzer:
+class CollectionResult():
+    """Represents result of collection"""
+    def __init__(self, result, directories_scanned, date):
+        self.result = result
+        self.directories_scanned = directories_scanned
+        self.date = date
+    
+    def __contains__(self, file_name):
+        return file_name in self.result
+
+    def get_directories_scanned(self):
+        return self.directories_scanned
+
+    def get_date(self):
+        return self.date
+
+    def get_files(self):
+        return self.result.keys()
+
+    def get_result(self):
+        return self.result
+
+class FlatCollector:
     """Walks a list of root directories
     and stores the absolute path to containing files
     in a dictionary with the associated values being information
@@ -14,9 +37,10 @@ class FlatAnalyzer:
     def __init__(self, rootDirectories: List[str], log_level: str = "INFO") -> None:
         self._checkDirectories(rootDirectories)
         self.rootDirectories = rootDirectories
-        self.files = {}
+        self._files = {}
         self.logger = logging.getLogger()
         self.logger.setLevel(log_level)
+        self.result = None
 
     def _checkDirectories(self, directories: List[str]) -> None:
         """Checks whether the supplied directories exist and whether
@@ -44,15 +68,20 @@ class FlatAnalyzer:
                         "user_id": file_stats.st_uid,
                     }
                     self.logger.debug(f"Processing {filename}")
-                    self.files[filename] = file_info
-        self.logger.info(f"Found {len(self.files.keys())} files")
+                    self._files[filename] = file_info
+        self.logger.info(f"Found {len(self._files.keys())} files")
+        self.result = CollectionResult(self._files, self.rootDirectories, datetime.utcnow())
 
     def get_file_stats(self):
         """Returns dictionary of file statistics"""
-        return self.files
+        if self.result is None:
+            raise ValueError("No result, run collection first!")
+        return self.result
 
     def save_file_state(self, output_file):
         """writes collected files to the output file"""
         if os.path.isfile(output_file):
             raise ValueError("Output file already exists!")
-        pickle.dump(self.files, open(output_file, "wb"))
+        if self.result is None:
+            raise ValueError("No result, run collection first!")
+        pickle.dump(self.result, open(output_file, "wb"))

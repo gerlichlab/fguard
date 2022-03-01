@@ -1,22 +1,22 @@
 """tests for the analyzer classes"""
 import unittest
 import os
-from dircompare.analyzers import FlatAnalyzer
+from dircompare.colllectors import FlatCollector
 
-class TestFlatAnalyzer(unittest.TestCase):
+class TestFlatCollector(unittest.TestCase):
     """Testsuite for flat analyzer"""
 
     def test_non_abs_directories_rejected(self):
         """Tests whether non absolute directories are rejected"""
         relativeDirectory = "dircompare/tests/testfiles"
-        badcall = lambda: FlatAnalyzer([relativeDirectory])
+        badcall = lambda: FlatCollector([relativeDirectory])
         self.assertRaises(ValueError, badcall)
 
 
     def test_non_existing_directory_rejected(self):
         file_path = os.path.abspath(__file__)
         test_dir = os.path.join(file_path, "testfilesxx")
-        badcall = lambda: FlatAnalyzer([test_dir])
+        badcall = lambda: FlatCollector([test_dir])
         self.assertRaises(ValueError, badcall)
 
     def test_existing_directory_accepted(self):
@@ -24,7 +24,7 @@ class TestFlatAnalyzer(unittest.TestCase):
         directory = os.path.dirname(file_path)
         test_dir = os.path.join(directory, "testfiles")
         # instantiate
-        FlatAnalyzer([test_dir])
+        FlatCollector([test_dir])
 
     def test_correct_files_found(self):
         """"Tests whether correct files are found"""
@@ -33,7 +33,7 @@ class TestFlatAnalyzer(unittest.TestCase):
         test_dir1 = os.path.join(directory, "testfiles")
         test_dir2 = os.path.join(directory, "testfiles2")
         # instantiate
-        analyzer = FlatAnalyzer([test_dir1, test_dir2])
+        analyzer = FlatCollector([test_dir1, test_dir2])
         # collect
         analyzer.collect_files()
         result = analyzer.get_file_stats()
@@ -48,7 +48,7 @@ class TestFlatAnalyzer(unittest.TestCase):
                 os.path.join(test_dir2, "testfiles3/test6.txt"),
             ]
         )
-        self.assertEqual(set(result.keys()), expected_keys)
+        self.assertEqual(set(result.get_result().keys()), expected_keys)
 
 
 if __name__ == "__main__":

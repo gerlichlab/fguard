@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='dircompare',
     version='0.1',
-    py_modules=['fstate'],
+    py_modules=['dircompare'],
     install_requires=[
         'Click'
     ],

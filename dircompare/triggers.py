@@ -45,6 +45,7 @@ class FilesMissingTrigger(BaseTrigger):
         # check whether actions should be performed
         if missing_files_number > self.number_threshold:
             message = {
+                "trigger": "Missing files trigger",
                 "missing_file_number": missing_files_number,
                 "missing_files": missing_files,
                 "experiments_affected": experiments_affected,

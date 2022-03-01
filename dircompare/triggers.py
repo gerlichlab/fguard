@@ -47,7 +47,6 @@ class FilesMissingTrigger(BaseTrigger):
             message = {
                 "trigger": "Missing files trigger",
                 "missing_file_number": missing_files_number,
-                "missing_files": missing_files,
                 "experiments_affected": experiments_affected,
                 "new_directories_scanned": new_state.get_directories_scanned(),
                 "old_directories_scanned": old_state.get_directories_scanned(),

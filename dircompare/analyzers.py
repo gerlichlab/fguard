@@ -55,4 +55,4 @@ class FlatAnalyzer:
         """writes collected files to the output file"""
         if os.path.isfile(output_file):
             raise ValueError("Output file already exists!")
-        pickle.dump(self.files, open("output_file", "wb"))
+        pickle.dump(self.files, open(output_file, "wb"))

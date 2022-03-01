@@ -3,6 +3,7 @@ import unittest
 import os
 from dircompare.colllectors import FlatCollector
 
+
 class TestFlatCollector(unittest.TestCase):
     """Testsuite for flat analyzer"""
 
@@ -11,7 +12,6 @@ class TestFlatCollector(unittest.TestCase):
         relativeDirectory = "dircompare/tests/testfiles"
         badcall = lambda: FlatCollector([relativeDirectory])
         self.assertRaises(ValueError, badcall)
-
 
     def test_non_existing_directory_rejected(self):
         file_path = os.path.abspath(__file__)
@@ -27,7 +27,7 @@ class TestFlatCollector(unittest.TestCase):
         FlatCollector([test_dir])
 
     def test_correct_files_found(self):
-        """"Tests whether correct files are found"""
+        """ "Tests whether correct files are found"""
         file_path = os.path.abspath(__file__)
         directory = os.path.dirname(file_path)
         test_dir1 = os.path.join(directory, "testfiles")

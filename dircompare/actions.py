@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 import json
 import os
 
+
 class BaseAction(ABC):
     @abstractmethod
     def perform(self, message):
@@ -18,13 +19,18 @@ class StdOutAction(BaseAction):
 
 class EmailAction(BaseAction):
     """Send email with results"""
+
     FROM = "dircompare@cbe.vbc.ac.at"
+
     def __init__(self):
         """Get recipient from environment variables"""
         recipient = os.getenv("DIRCOMPARE_EMAIL_ADDRESS")
         if recipient is None:
-            raise ValueError("You need to define the 'DIRCOMPARE_EMAIL_ADDRESS' environment variable to use the EmailAction trigger")
+            raise ValueError(
+                "You need to define the 'DIRCOMPARE_EMAIL_ADDRESS' environment variable to use the EmailAction trigger"
+            )
         self.recipient = recipient
+
     def get_mail_body(self, message):
         # format body
         body_string = "This is an automatically generated message from dirCompare\n\n\n"
@@ -34,12 +40,10 @@ class EmailAction(BaseAction):
             body_string += str(value)
             body_string += "\n"
         return f"subject:{message['trigger']}\nfrom:{self.FROM}\n{body_string}"
+
     def perform(self, message):
         body = self.get_mail_body(json.loads(message))
         os.system(f"echo '{body}' | sendmail {self.recipient}")
 
 
-ACTIONMAP = {
-    "stdout": StdOutAction,
-    "email": EmailAction
-}
+ACTIONMAP = {"stdout": StdOutAction, "email": EmailAction}

@@ -6,15 +6,17 @@ import logging
 from typing import List
 
 
-DATEFORMAT = '%Y-%m-%dT%H:%M:%S'
+DATEFORMAT = "%Y-%m-%dT%H:%M:%S"
 
-class CollectionResult():
+
+class CollectionResult:
     """Represents result of collection"""
+
     def __init__(self, result, directories_scanned, date):
         self.result = result
         self.directories_scanned = directories_scanned
         self.date = date
-    
+
     def __contains__(self, file_name):
         return file_name in self.result
 
@@ -39,6 +41,7 @@ class CollectionResult():
 
     def get_result(self):
         return self.result
+
 
 class FlatCollector:
     """Walks a list of root directories
@@ -82,7 +85,9 @@ class FlatCollector:
                     self.logger.debug(f"Processing {filename}")
                     self._files[filename] = file_info
         self.logger.info(f" Found {len(self._files.keys())} files")
-        self.result = CollectionResult(self._files, self.rootDirectories, datetime.utcnow())
+        self.result = CollectionResult(
+            self._files, self.rootDirectories, datetime.utcnow()
+        )
 
     def get_file_stats(self):
         """Returns dictionary of file statistics"""

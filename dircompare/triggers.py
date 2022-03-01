@@ -51,13 +51,11 @@ class FilesMissingTrigger(BaseTrigger):
                 "new_directories_scanned": new_state.get_directories_scanned(),
                 "old_directories_scanned": old_state.get_directories_scanned(),
                 "new_date[utc]": str(new_state.get_date()),
-                "old_date[utc": str(old_state.get_date())
+                "old_date[utc": str(old_state.get_date()),
             }
             for action in self.actions:
                 action.perform(json.dumps(message))
             return message
 
 
-TRIGGERMAP = {
-    "files_missing": FilesMissingTrigger
-}
+TRIGGERMAP = {"files_missing": FilesMissingTrigger}

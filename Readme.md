@@ -7,7 +7,7 @@ A command line utility to monitor integrity of filesystems. File guard allows to
 You can install File guard from github using the following command:
 
 ```
-TODO
+pip install git+https://github.com/gerlichlab/fguard
 ```
 
 ## Usage

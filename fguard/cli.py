@@ -17,9 +17,10 @@ def cli():
 
 @click.command()
 @click.option("--outputDir", default="./", help="Output directory for scan file")
+@click.option("--logLevel", default="INFO", help="Loglevel of collector")
 @click.argument("root_directories", nargs=-1)
-def scan(root_directories, outputdir):
-    collector = FlatCollector(root_directories)
+def scan(root_directories, outputdir, loglevel):
+    collector = FlatCollector(root_directories, log_level=loglevel)
     collector.collect_files()
     collector.save(outputdir)
 

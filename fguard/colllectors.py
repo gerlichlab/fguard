@@ -73,6 +73,7 @@ class FlatCollector:
         for directory in self.rootDirectories:
             self.logger.info(f" Collecting files from {directory}")
             for dirpath, dirnames, files in os.walk(directory):
+                self.logger.debug(f"Collecting from {dirpath}")
                 for file in files:
                     filename = os.path.join(dirpath, file)
                     file_stats = os.stat(filename)
@@ -82,7 +83,6 @@ class FlatCollector:
                         "created_date": file_stats.st_ctime,
                         "user_id": file_stats.st_uid,
                     }
-                    self.logger.debug(f"Processing {filename}")
                     self._files[filename] = file_info
         self.logger.info(f" Found {len(self._files.keys())} files")
         self.result = CollectionResult(

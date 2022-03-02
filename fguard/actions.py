@@ -68,7 +68,6 @@ class EmailAction(BaseAction):
 
     def perform(self, message):
         body = self.get_mail_body(message)
-        print(body)
         os.system(f"echo '{body}' | sendmail {self.recipient}")
 
 

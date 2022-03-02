@@ -27,6 +27,23 @@ class FilesMissingTrigger(BaseTrigger):
         self.number_threshold = number_threshold
         self.actions = actions
 
+    def _construct_message(
+        self, missing_files_number, old_state, new_state, experiments_affected
+    ):
+        return {
+            "title": "Missing files detected!",
+            "description": f"There where {missing_files_number} missing files detected between a scan performed at {new_state.get_date()} and {old_state.get_date()}. There were {len(experiments_affected.keys())} experiments affected.",
+            "subject": "Missing files detected",
+            "details": {
+                "missing_file_number": missing_files_number,
+                "experiments_affected": experiments_affected,
+                "new_directories_scanned": new_state.get_directories_scanned(),
+                "old_directories_scanned": old_state.get_directories_scanned(),
+                "new_date[utc]": str(new_state.get_date()),
+                "old_date[utc": str(old_state.get_date()),
+            },
+        }
+
     def inspect(self, old_state: CollectionResult, new_state: CollectionResult):
         missing_files_number = 0
         missing_files = []
@@ -44,17 +61,16 @@ class FilesMissingTrigger(BaseTrigger):
                         experiments_affected[experiment_number] = 1
         # check whether actions should be performed
         if missing_files_number > self.number_threshold:
-            message = {
-                "trigger": "Missing files trigger",
-                "missing_file_number": missing_files_number,
-                "experiments_affected": experiments_affected,
-                "new_directories_scanned": new_state.get_directories_scanned(),
-                "old_directories_scanned": old_state.get_directories_scanned(),
-                "new_date[utc]": str(new_state.get_date()),
-                "old_date[utc": str(old_state.get_date()),
-            }
+
             for action in self.actions:
-                action.perform(json.dumps(message))
+                action.perform(
+                    self._construct_message(
+                        missing_files_number,
+                        old_state,
+                        new_state,
+                        experiments_affected,
+                    )
+                )
             return message
 
 

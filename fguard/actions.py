@@ -20,20 +20,20 @@ class StdOutAction(BaseAction):
 class EmailAction(BaseAction):
     """Send email with results"""
 
-    FROM = "dircompare@cbe.vbc.ac.at"
+    FROM = "fguard@cbe.vbc.ac.at"
 
     def __init__(self):
         """Get recipient from environment variables"""
-        recipient = os.getenv("DIRCOMPARE_EMAIL_ADDRESS")
+        recipient = os.getenv("FGUARD_EMAIL_ADDRESS")
         if recipient is None:
             raise ValueError(
-                "You need to define the 'DIRCOMPARE_EMAIL_ADDRESS' environment variable to use the EmailAction trigger"
+                "You need to define the 'FGUARD_EMAIL_ADDRESS' environment variable to use the EmailAction trigger"
             )
         self.recipient = recipient
 
     def get_mail_body(self, message):
         # format body
-        body_string = "This is an automatically generated message from dirCompare\n\n\n"
+        body_string = "This is an automatically generated message from fguard\n\n\n"
         for key, value in message.items():
             body_string += str(key)
             body_string += " - "

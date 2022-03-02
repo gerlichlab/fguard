@@ -28,10 +28,10 @@ You can supply a list of root directories that will be traversed. The absolute p
 
 ### Compare scan
 
-To compare scan files, you use the `triggers` command:
+To compare scan files, you use the `check` command:
 
 ```
-Usage: fguard triggers [OPTIONS] COMMAND [ARGS]...
+Usage: fguard check [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --help  Show this message and exit.
@@ -40,10 +40,10 @@ Commands:
   missing-files
 ```
 
-The `triggers` command has a sub-command for each trigger, e.g. the `missing-files` trigger. The `missing-files` trigger performs actions if a above a threshold number of files are missing:
+The `check` command has a sub-command for each type of check, e.g. the `missing-files` check. The `missing-files` check performs actions if a above a threshold number of files are missing:
 
 ```
-Usage: fguard triggers missing-files [OPTIONS]
+Usage: fguard check missing-files [OPTIONS]
 
 Options:
   --newScan TEXT        Defaults to the newest scan in the current working
@@ -59,7 +59,7 @@ Options:
 Actions can be found in the `actions.py` file and can currently be the `standardout` action and the `email` action (Note that for the `email` action, the `sendmail` command needs to be set-up and the environment variable `FGUARD_EMAIL_ADDRESS` of the recipient needs to be defined). Actions can be passed as a multiple style argument:
 
 ```
- fguard triggers missing-files --actions stdout --actions email
+ fguard check missing-files --actions stdout --actions email
 ```
 
-The `triggers` command defaults to comparing the newest two `.scan` files in the current working directory, but `.scan` files can also be supplied as separate arguments.
+The `check` command defaults to comparing the newest two `.scan` files in the current working directory, but `.scan` files can also be supplied as separate arguments.

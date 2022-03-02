@@ -25,7 +25,7 @@ def scan(root_directories, outputdir):
 
 
 @cli.group()
-def triggers():
+def check():
     pass
 
 
@@ -82,4 +82,4 @@ def missing_files(newscan, oldscan, action_names, threshhold):
 
 
 cli.add_command(scan)
-triggers.add_command(missing_files)
+check.add_command(missing_files)

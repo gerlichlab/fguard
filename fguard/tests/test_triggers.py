@@ -4,8 +4,8 @@ import unittest
 import os
 from datetime import datetime
 from unittest.mock import MagicMock
-from dircompare.triggers import FilesMissingTrigger
-from dircompare.colllectors import CollectionResult
+from fguard.triggers import FilesMissingTrigger
+from fguard.colllectors import CollectionResult
 
 
 class TestFilesMissingTrigger(unittest.TestCase):

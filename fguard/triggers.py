@@ -4,8 +4,8 @@ import re
 from abc import ABC, abstractmethod
 import json
 from typing import List
-from dircompare.actions import BaseAction
-from dircompare.colllectors import CollectionResult
+from fguard.actions import BaseAction
+from fguard.colllectors import CollectionResult
 
 EXPERIMENT_NUMBER = r"Experiments_(\d{6})/(\d{6})"
 

@@ -2,9 +2,9 @@
 import os
 import click
 from datetime import datetime
-from dircompare.colllectors import CollectionResult, FlatCollector, DATEFORMAT
-from dircompare.triggers import FilesMissingTrigger
-from dircompare.actions import ACTIONMAP
+from fguard.colllectors import CollectionResult, FlatCollector, DATEFORMAT
+from fguard.triggers import FilesMissingTrigger
+from fguard.actions import ACTIONMAP
 import logging
 
 logging.basicConfig()

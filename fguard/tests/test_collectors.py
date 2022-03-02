@@ -1,7 +1,7 @@
 """tests for the analyzer classes"""
 import unittest
 import os
-from dircompare.colllectors import FlatCollector
+from fguard.colllectors import FlatCollector
 
 
 class TestFlatCollector(unittest.TestCase):

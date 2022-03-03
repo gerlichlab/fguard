@@ -90,7 +90,7 @@ class ExperimentsMissingTrigger(BaseTrigger):
         return {
             "title": "Missing experiments detected!",
             "description": f"There where {len(missing_experiments)} missing experiments detected between a scan performed at {new_state.get_date()} and {old_state.get_date()}.",
-            "subject": "Missing files detected",
+            "subject": "Missing experiments detected",
             "details": {
                 "missing_experiment_number": len(missing_experiments),
                 "experiments_missing": missing_experiments,

@@ -55,12 +55,12 @@ class EmailAction(BaseAction):
 
     def __init__(self):
         """Get recipient from environment variables"""
-        recipient = os.getenv("FGUARD_EMAIL_ADDRESS")
-        if recipient is None:
+        recipients = os.getenv("FGUARD_EMAIL_ADDRESS")
+        if recipients is None:
             raise ValueError(
                 "You need to define the 'FGUARD_EMAIL_ADDRESS' environment variable to use the EmailAction trigger"
             )
-        self.recipient = recipient
+        self.recipients = recipients
 
     def get_mail_body(self, message):
         # format body
@@ -68,7 +68,7 @@ class EmailAction(BaseAction):
 
     def perform(self, message):
         body = self.get_mail_body(message)
-        os.system(f"echo '{body}' | sendmail {self.recipient}")
+        os.system(f"echo '{body}' | sendmail -t {self.recipients}")
 
 
 ACTIONMAP = {"stdout": StdOutAction, "email": EmailAction}

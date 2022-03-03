@@ -49,11 +49,11 @@ def check():
     multiple=True,
 )
 @click.option(
-    "--threshhold",
+    "--threshold",
     default=50,
     help="Threshold of missing files above which actions are triggered",
 )
-def missing_files(newscan, oldscan, action_names, threshhold):
+def missing_files(newscan, oldscan, action_names, threshold):
     # get actions
     actions = []
     for action_name in action_names:
@@ -78,7 +78,7 @@ def missing_files(newscan, oldscan, action_names, threshhold):
         new_result = CollectionResult.from_file(newscan)
         old_result = CollectionResult.from_file(oldscan)
     # do comparison
-    trigger = FilesMissingTrigger(actions=actions, number_threshold=threshhold)
+    trigger = FilesMissingTrigger(actions=actions, number_threshold=threshold)
     trigger.inspect(old_result, new_result)
 
 
